@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Mis Puntos - SUPP WARE</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/points.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">SUPP WARE</a>
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/products.html">Productos</a>
+        <a href="/about.html">Nosotros</a>
+        <a href="/points.html" class="active">Puntos</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="location.href='/cart.html'">🛒<span class="cart-badge" id="cartCount">0</span></button>
+        <div class="user-menu">
+          <button class="icon-btn" onclick="toggleUserMenu()">👤</button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="/orders.html">Mis Pedidos</a>
+            <a href="/points.html">Mis Puntos</a>
+            <a href="#" onclick="logout()">Cerrar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="points-page">
+    <div class="points-hero">
+      <div class="container">
+        <div class="points-balance" id="pointsBalance">0 <span>puntos</span></div>
+        <p class="points-info">= <strong id="pointsValue">$0.00</strong> en descuentos disponibles</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="points-rules">
+        <div class="rule-card">
+          <h4>⚡ Cómo ganar puntos</h4>
+          <p>Ganas 1 punto por cada $10 MXN que gastes en una compra. Sin tope, sin caducidad.</p>
+        </div>
+        <div class="rule-card">
+          <h4>💰 Cómo canjear</h4>
+          <p>100 puntos = $10 MXN de descuento. Puedes usarlos en cualquier compra, en el checkout.</p>
+        </div>
+        <div class="rule-card">
+          <h4>📈 Beneficios por nivel</h4>
+          <p>• <strong>Bronce</strong> (0-500 pts): Acceso a cupones básicos<br>
+             • <strong>Plata</strong> (500-2000 pts): Cupones exclusivos + envío gratis<br>
+             • <strong>Oro</strong> (2000+ pts): Todo lo anterior + productos de regalo en cumpleaños</p>
+        </div>
+      </div>
+      <div class="points-history">
+        <h3>Historial de Puntos</h3>
+        <table class="history-table" id="pointsTable">
+          <thead><tr><th>Fecha</th><th>Movimiento</th><th>Motivo</th><th>Puntos</th></tr></thead>
+          <tbody id="pointsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">© 2026 SUPP WARE Torreón. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script src="/js/points.js"></script>
+</body>
+</html>   

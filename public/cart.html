@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Carrito - SUPP WARE</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">SUPP WARE</a>
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/products.html">Productos</a>
+        <a href="/about.html">Nosotros</a>
+        <a href="/points.html">Puntos</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="location.href='/cart.html'">🛒<span class="cart-badge" id="cartCount">0</span></button>
+        <div class="user-menu">
+          <button class="icon-btn" onclick="toggleUserMenu()">👤</button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="/orders.html">Mis Pedidos</a>
+            <a href="/points.html">Mis Puntos</a>
+            <a href="#" onclick="logout()">Cerrar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="cart-page">
+    <div class="container">
+      <h1 style="font-size:2rem; margin-bottom:8px;">Tu Carrito</h1>
+      <div class="cart-layout">
+        <div class="cart-items" id="cartItems"><p style="color:var(--text-muted)">Cargando...</p></div>
+        <div class="cart-summary" id="cartSummary">
+          <h3>Resumen</h3>
+          <div class="summary-row"><span class="label">Subtotal</span><span class="value" id="sumSubtotal">$0.00</span></div>
+          <div class="summary-row discount"><span class="label">Descuento</span><span class="value" id="sumDiscount">-$0.00</span></div>
+          <hr class="summary-divider">
+          <div class="summary-row summary-total"><span class="label">Total</span><span class="value" id="sumTotal">$0.00</span></div>
+          <div class="coupon-input">
+            <input type="text" id="couponCode" placeholder="Código de cupón">
+            <button class="btn btn-outline btn-sm" onclick="applyCoupon()">Aplicar</button>
+          </div>
+          <div class="points-toggle">
+            <input type="checkbox" id="usePoints" onchange="togglePoints()">
+            <span>Usar puntos (<span id="availPoints">0</span> disponibles = $<span id="pointsValue">0</span>)</span>
+          </div>
+          <a href="/checkout.html" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:16px;" id="checkoutBtn">Finalizar Compra →</a>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; text-align:center;">Entrega disponible: Torreón</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>   

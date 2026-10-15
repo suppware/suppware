@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Checkout - SUPP WARE</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .checkout-page { padding-top: var(--header-h); }
+    .checkout-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; padding: 48px 0; }
+    .checkout-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px; }
+    .checkout-form h2 { font-size: 1.3rem; margin-bottom: 24px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .shipping-options { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+    .shipping-option { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: var(--radius-md); background: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer; transition: var(--transition-fast); }
+    .shipping-option.selected { border-color: var(--accent); background: rgba(108,99,255,0.05); }
+    .shipping-option input { accent-color: var(--accent); }
+    .shipping-option .info { flex: 1; }
+    .shipping-option .info h4 { font-size: 0.9rem; }
+    .shipping-option .info p { font-size: 0.8rem; color: var(--text-muted); }
+    .shipping-option .price { font-weight: 700; }
+    .order-summary-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 28px; height: fit-content; position: sticky; top: calc(var(--header-h) + 20px); }
+    .order-summary-box h3 { margin-bottom: 16px; }
+    .summary-item { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 8px 0; color: var(--text-secondary); }
+    @media (max-width: 900px) { .checkout-layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">SUPP WARE</a>
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/products.html">Productos</a>
+        <a href="/about.html">Nosotros</a>
+        <a href="/points.html">Puntos</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="location.href='/cart.html'">🛒<span class="cart-badge" id="cartCount">0</span></button>
+        <div class="user-menu">
+          <button class="icon-btn" onclick="toggleUserMenu()">👤</button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="/orders.html">Mis Pedidos</a>
+            <a href="/points.html">Mis Puntos</a>
+            <a href="#" onclick="logout()">Cerrar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="checkout-page">
+    <div class="container">
+      <div class="checkout-layout">
+        <div class="checkout-form">
+          <h2>Datos de Entrega</h2>
+          <div class="form-group">
+            <label>Nombre completo</label>
+            <input type="text" id="coName" placeholder="Tu nombre">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="tel" id="coPhone" placeholder="871-xxx-xxxx">
+            </div>
+            <div class="form-group">
+              <label>Ciudad</label>
+              <select id="coCity">
+                <option value="Torreón">Torreón</option>
+                <option value="Hermosillo" disabled>Hermosillo (próximamente)</option>
+                <option value="Obregón" disabled>Obregón (próximamente)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" id="coAddress" placeholder="Calle, número, colonia">
+          </div>
+          <div class="form-group">
+            <label>Método de envío</label>
+            <div class="shipping-options">
+              <label class="shipping-option selected" onclick="selectShipping(this,'local')">
+                <input type="radio" name="shipping" value="local" checked>
+                <div class="info"><h4>Entrega local (Torreón)</h4><p>24-48 horas</p></div>
+                <span class="price">Gratis</span>
+              </label>
+              <label class="shipping-option" onclick="selectShipping(this,'dhl')">
+                <input type="radio" name="shipping" value="dhl">
+                <div class="info"><h4>DHL (próximamente)</h4><p>2-5 días hábiles</p></div>
+                <span class="price">TBD</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notas (opcional)</label>
+            <textarea id="coNotes" rows="3" placeholder="Indicaciones de entrega..." style="width:100%; padding:14px 16px; border-radius:var(--radius-md); background:var(--bg-secondary); border:1px solid var(--border); color:var(--text-primary); resize:vertical;"></textarea>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:16px;" onclick="placeOrder()">Confirmar Pedido ✓</button>
+        </div>
+        <div class="order-summary-box">
+          <h3>Resumen del Pedido</h3>
+          <div id="orderSummaryItems"></div>
+          <hr class="summary-divider">
+          <div class="summary-row"><span class="label">Subtotal</span><span class="value" id="coSubtotal">$0</span></div>
+          <div class="summary-row discount"><span class="label">Descuento</span><span class="value" id="coDiscount">-$0</span></div>
+          <div class="summary-row summary-total"><span class="label">Total</span><span class="value" id="coTotal">$0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script>
+    let shippingMethod = 'local';
+    function selectShipping(el, method) {
+      document.querySelectorAll('.shipping-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      shippingMethod = method;
+    }
+    async function loadSummary() {
+      const cart = await api('/api/cart');
+      if (!cart) return;
+      document.getElementById('orderSummaryItems').innerHTML = cart.items.map(i => `
+        <div class="summary-item"><span>${i.name} × ${i.quantity}</span><span>$${(i.price*i.quantity).toFixed(2)}</span></div>
+      `).join('');
+      document.getElementById('coSubtotal').textContent = '$' + cart.total.toFixed(2);
+      document.getElementById('coTotal').textContent = '$' + cart.total.toFixed(2);
+    }
+    async function placeOrder() {
+      const address = document.getElementById('coAddress').value;
+      const city = document.getElementById('coCity').value;
+      const notes = document.getElementById('coNotes').value;
+      if (!address) { toast('Ingresa tu dirección', 'error'); return; }
+      const res = await api('/api/orders', 'POST', { address, city, shipping_method: shippingMethod, notes });
+      if (res?.order_id) {
+        toast(`¡Pedido #${res.order_id} confirmado! Ganaste ${res.points_earned} puntos.`, 'success');
+        setTimeout(() => location.href = '/orders.html', 2000);
+      }
+    }
+    loadSummary();
+  </script>
+</body>
+</html>   

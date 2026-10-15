@@ -1,0 +1,57 @@
+.products-page { padding-top: var(--header-h); min-height: 100vh; }
+.products-layout { display: grid; grid-template-columns: 260px 1fr; gap: 32px; padding: 40px 0; }
+
+/* Sidebar */
+.filters-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; height: fit-content;
+  position: sticky; top: calc(var(--header-h) + 20px);
+}
+.filters-panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 20px; }
+.filter-group { margin-bottom: 24px; }
+.filter-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.filter-group select, .filter-group input {
+  width: 100%; padding: 10px 14px; border-radius: var(--radius-sm);
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-primary); font-size: 0.9rem; transition: var(--transition-fast);
+}
+.filter-group select:focus, .filter-group input:focus { outline: none; border-color: var(--accent); }
+.filter-group input[type="range"] { padding: 0; -webkit-appearance: none; height: 4px; background: var(--bg-secondary); border-radius: 2px; appearance: none;}
+.filter-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+.filter-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-tag {
+  padding: 6px 14px; border-radius: 100px; font-size: 0.8rem;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer; transition: var(--transition-fast);
+}
+.filter-tag:hover, .filter-tag.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Search bar */
+.search-bar {
+  display: flex; gap: 12px; margin-bottom: 24px;
+}
+.search-bar input {
+  flex: 1; padding: 14px 20px; border-radius: var(--radius-md);
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-primary); font-size: 1rem;
+}
+.search-bar input:focus { outline: none; border-color: var(--accent); }
+
+/* Results header */
+.results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.results-count { font-size: 0.9rem; color: var(--text-secondary); }
+.sort-select { padding: 8px 14px; border-radius: var(--radius-sm); background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); }
+
+/* Pagination */
+.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+.pagination button {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); font-weight: 600; transition: var(--transition-fast);
+}
+.pagination button.active, .pagination button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+@media (max-width: 900px) {
+  .products-layout { grid-template-columns: 1fr; }
+  .filters-panel { position: static; }
+}   

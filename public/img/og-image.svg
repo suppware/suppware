@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+  <g transform="translate(460, 180)">
+    <rect x="0" y="0" width="280" height="200" rx="8" fill="none" stroke="#ff6600" stroke-width="8"/>
+    <line x1="0" y1="67" x2="280" y2="67" stroke="#ff6600" stroke-width="4"/>
+    <line x1="0" y1="134" x2="280" y2="134" stroke="#ff6600" stroke-width="4"/>
+    <line x1="93" y1="0" x2="93" y2="200" stroke="#ff6600" stroke-width="4"/>
+    <line x1="187" y1="0" x2="187" y2="200" stroke="#ff6600" stroke-width="4"/>
+  </g>
+  <text x="600" y="480" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="72" fill="#ffffff" text-anchor="middle" letter-spacing="4">SUPP WARE</text>
+  <text x="600" y="540" font-family="Arial, sans-serif" font-weight="400" font-size="28" fill="#a0a0b8" text-anchor="middle" letter-spacing="6">TORREÓN </text>
+</svg>   

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Usuarios - Admin</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <a href="/admin/" class="logo">SUPP WARE Admin</a>
+      <ul class="admin-nav">
+        <li><a href="/admin/">📊 Dashboard</a></li>
+        <li><a href="/admin/products.html">📦 Productos</a></li>
+        <li><a href="/admin/orders.html">🛒 Pedidos</a></li>
+        <li><a href="/admin/users.html" class="active">👥 Usuarios</a></li>
+      </ul>
+    </aside>
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Usuarios</h1>
+      </div>
+      <table class="admin-table" id="usersTable">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Puntos</th><th>Total Gastado</th><th>Ciudad</th><th>Rol</th><th>Acciones</th></tr></thead>
+        <tbody id="usersBody"></tbody>
+      </table>
+    </main>
+  </div>
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>   
