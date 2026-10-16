@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Productos - SUPP WARE</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/products.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">SUPP WARE</a>
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/products.html" class="active">Productos</a>
+        <a href="/about.html">Nosotros</a>
+        <a href="/points.html">Puntos</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="location.href='/cart.html'">🛒<span class="cart-badge" id="cartCount">0</span></button>
+        <div class="user-menu">
+          <button class="icon-btn" onclick="toggleUserMenu()">👤</button>
+          <div class="user-dropdown" id="userDropdown"></div>
+        </div>  
+      </div>
+    </div>
+  </header>
+
+  <div class="products-page">
+    <div class="container">
+      <div class="products-layout">
+        <aside class="filters-panel">
+          <h3>Filtros</h3>
+          <div class="filter-group">
+            <label>Categoría</label>
+            <select id="filterCategory" onchange="applyFilters()">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="filter-group" id="subcatGroup" style="display:none">
+            <label>Subcategoría</label>
+            <select id="filterSubcategory" onchange="applyFilters()">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Marca</label>
+            <select id="filterBrand" onchange="applyFilters()">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Precio Máx: <span id="priceLabel">$5000</span></label>
+            <input type="range" id="filterPrice" min="0" max="5000" value="5000" step="100" oninput="document.getElementById('priceLabel').textContent='$'+this.value; applyFilters()">
+          </div>
+          <div class="filter-group">
+            <label>Ordenar por</label>
+            <select id="filterSort" onchange="applyFilters()">
+              <option value="newest">Más recientes</option>
+              <option value="price_asc">Precio: menor a mayor</option>
+              <option value="price_desc">Precio: mayor a menor</option>
+              <option value="rating">Mejor calificados</option>
+            </select>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="resetFilters()" style="width:100%">Limpiar filtros</button>
+        </aside>
+
+        <main>
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="debounceSearch()">
+            <button class="btn btn-primary" onclick="applyFilters()">Buscar</button>
+          </div>
+          <div class="results-header">
+            <span class="results-count" id="resultsCount"></span>
+          </div>
+          <div class="products-grid" id="productsGrid"></div>
+          <div class="pagination" id="pagination"></div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">© 2026 NUTRA Torreón. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script src="/js/products.js"></script>
+</body>
+</html>   

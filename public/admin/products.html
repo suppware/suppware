@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Productos - Admin</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <a href="/admin/" class="logo">SUPP WARE Admin</a>
+      <ul class="admin-nav">
+        <li><a href="/admin/">📊 Dashboard</a></li>
+        <li><a href="/admin/products.html" class="active">📦 Productos</a></li>
+        <li><a href="/admin/orders.html">🛒 Pedidos</a></li>
+        <li><a href="/admin/users.html">👥 Usuarios</a></li>
+      </ul>
+    </aside>
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Productos</h1>
+        <button class="btn btn-primary btn-sm" onclick="openProductModal()">+ Nuevo Producto</button>
+      </div>
+      <table class="admin-table" id="productsTable">
+        <thead><tr><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Activo</th><th>Acciones</th></tr></thead>
+        <tbody id="productsBody"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <h3 id="modalTitle">Nuevo Producto</h3>
+      <input type="hidden" id="pId">
+      <div class="form-row">
+        <div class="form-group"><label>Nombre</label><input id="pName"></div>
+        <div class="form-group"><label>Slug</label><input id="pSlug" placeholder="whey-protein-5lb"></div>
+      </div>
+      <div class="form-group"><label>Descripción</label><textarea id="pDesc" rows="3" style="width:100%;padding:12px;border-radius:var(--radius-md);background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Precio</label><input type="number" id="pPrice" step="0.01"></div>
+        <div class="form-group"><label>Precio anterior (opcional)</label><input type="number" id="pOldPrice" step="0.01"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Stock</label><input type="number" id="pStock"></div>
+        <div class="form-group"><label>Categoría</label><select id="pCategory"></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Subcategoría</label><input id="pSubcat"></div>
+        <div class="form-group"><label>Marca</label><input id="pBrand"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Tamaño</label><input id="pSize" placeholder="5 lb, 2 lb, etc."></div>
+        <div class="form-group"><label>Imagen</label><input type="file" id="pImage" accept="image/*"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Destacado</label><select id="pFeatured"><option value="0">No</option><option value="1">Sí</option></select></div>
+        <div class="form-group"><label>Activo</label><select id="pActive"><option value="1">Sí</option><option value="0">No</option></select></div>
+      </div>
+      <div style="display:flex; gap:12px; margin-top:24px;">
+        <button class="btn btn-primary" onclick="saveProduct()">Guardar</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>   

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>Producto - SUPP WARE</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .detail-page { padding-top: var(--header-h); }
+    .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 48px 0; }
+    .detail-img { border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-card); min-height: 400px; display: flex; align-items: center; justify-content: center; }
+    .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-info h1 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 8px; }
+    .detail-brand { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+    .detail-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; color: var(--accent-secondary); }
+    .detail-price { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    .detail-price .old { font-size: 1.2rem; color: var(--text-muted); text-decoration: line-through; margin-left: 12px; }
+    .detail-desc { color: var(--text-secondary); line-height: 1.8; margin: 24px 0; }
+    .detail-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+    .detail-meta-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 16px; }
+    .detail-meta-item .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+    .detail-meta-item .value { font-size: 0.95rem; font-weight: 600; margin-top: 4px; }
+    .detail-actions { display: flex; gap: 12px; margin-top: 32px; align-items: center; }
+    .qty-selector { display: flex; align-items: center; gap: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 16px; }
+    .qty-selector button { background: none; font-size: 1.2rem; color: var(--text-primary); }
+    .reviews-section { margin-top: 60px; }
+    .reviews-section h3 { font-size: 1.3rem; margin-bottom: 24px; }
+    .review-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+    .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .review-author { font-weight: 600; font-size: 0.9rem; }
+    .review-date { font-size: 0.8rem; color: var(--text-muted); }
+    .review-stars { color: var(--accent-secondary); margin-bottom: 8px; }
+    .review-text { font-size: 0.9rem; color: var(--text-secondary); }
+    @media (max-width: 900px) { .detail-layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">SUPP WARE</a>
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/products.html" class="active">Productos</a>
+        <a href="/about.html">Nosotros</a>
+        <a href="/points.html">Puntos</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="location.href='/cart.html'">🛒<span class="cart-badge" id="cartCount">0</span></button>
+        <div class="user-menu">
+          <button class="icon-btn" onclick="toggleUserMenu()">👤</button>
+          <div class="user-dropdown" id="userDropdown"></div>
+        </div>  
+      </div>
+    </div>
+  </header>
+
+  <div class="detail-page">
+    <div class="container">
+      <div class="detail-layout" id="detailContent"></div>
+      <div class="reviews-section" id="reviewsSection"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">© 2026 SUPP WARE Torreón. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script>
+    const slug = new URLSearchParams(location.search).get('slug');   
+    let qty = 1;
+
+    async function loadProduct() {
+      try {
+        const res = await fetch(`/api/products/${slug}`);
+        if (!res.ok) { document.getElementById('detailContent').innerHTML = '<p>Producto no encontrado</p>'; return; }
+        const { product, reviews } = await res.json();
+        document.title = `${product.name} - SUPP WARE`;
+        document.getElementById('detailContent').innerHTML = `
+          <div class="detail-img">${product.image ? `<img src="${product.image}" alt="${product.name}">` : '📦'}</div>
+          <div class="detail-info">
+            <p class="detail-brand">${product.brand || ''} · ${product.category_name}</p>
+            <h1>${product.name}</h1>
+            <div class="detail-rating">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5-Math.round(product.rating))} <span>${product.rating} (${product.reviews_count} reseñas)</span></div>
+            <div class="detail-price">$${product.price.toFixed(2)} MXN ${product.old_price ? `<span class="old">$${product.old_price.toFixed(2)}</span>` : ''}</div>
+            <p class="detail-desc">${product.description || 'Sin descripción.'}</p>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="label">Tamaño</div><div class="value">${product.size || 'N/A'}</div></div>
+              <div class="detail-meta-item"><div class="label">Disponibilidad</div><div class="value">${product.stock > 0 ? '✅ En stock · Entrega 24-48h' : '📦 Bajo pedido · 3-7 días'}</div></div>   
+              <div class="detail-meta-item"><div class="label">Categoría</div><div class="value">${product.category_name}</div></div>
+              <div class="detail-meta-item"><div class="label">Subcategoría</div><div class="value">${product.subcategory || 'N/A'}</div></div>
+            </div>
+            <div class="detail-actions">
+              <div class="qty-selector">
+                <button onclick="qty=Math.max(1,qty-1);updateQty()">−</button>
+                <span id="qtyDisplay">${qty}</span>
+                <button onclick="qty++;updateQty()">+</button>
+              </div>
+              <button class="btn btn-primary" onclick="addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>Agregar al carrito</button>
+            </div>
+          </div>
+        `;
+        document.getElementById('reviewsSection').innerHTML = `
+          <h3>Reseñas</h3>
+          ${reviews.length ? reviews.map(r => `
+            <div class="review-card">
+              <div class="review-header"><span class="review-author">${r.user_name}</span><span class="review-date">${r.created_at}</span></div>
+              <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+              <p class="review-text">${r.comment}</p>
+            </div>
+          `).join('') : '<p style="color:var(--text-muted)">Aún no hay reseñas.</p>'}
+        `;
+      } catch(e) { console.error(e); }
+    }
+    function updateQty() { document.getElementById('qtyDisplay').textContent = qty; }
+    async function addToCart(pid) {
+      if (!getToken()) { toast('Inicia sesión para agregar al carrito', 'error'); location.href='/login.html'; return; }
+      await api('/api/cart/items', 'POST', { product_id: pid, quantity: qty });
+      toast('Producto agregado al carrito ✓', 'success');
+      updateCartCount();
+    }
+    loadProduct();
+  </script>
+</body>
+</html>   

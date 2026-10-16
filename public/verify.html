@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar - SUPP WARE</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card" style="text-align:center;">
+      <div style="font-size:3rem; margin-bottom:16px;" id="verifyIcon">⏳</div>
+      <h2 id="verifyTitle">Verificando...</h2>
+      <p class="subtitle" id="verifyMsg">Un momento por favor</p>
+      <div id="verifyActions"></div>
+    </div>
+  </div>
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script>
+    const token = new URLSearchParams(location.search).get('token');
+    if (!token) {
+      document.getElementById('verifyIcon').textContent = '❌';
+      document.getElementById('verifyTitle').textContent = 'Enlace inválido';
+      document.getElementById('verifyMsg').textContent = 'Este enlace no es válido. Solicita uno nuevo.';
+      document.getElementById('verifyActions').innerHTML = '<a href="/login.html" class="btn btn-primary" style="width:100%;justify-content:center;">Ir al login</a>';
+    } else {
+      fetch(`/api/auth/verify?token=${token}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.ok) {
+            document.getElementById('verifyIcon').textContent = '✅';
+            document.getElementById('verifyTitle').textContent = '¡Correo verificado!';
+            document.getElementById('verifyMsg').textContent = 'Tu cuenta está activa. Ya puedes iniciar sesión.';
+            document.getElementById('verifyActions').innerHTML = '<a href="/login.html" class="btn btn-primary" style="width:100%;justify-content:center;">Iniciar Sesión</a>';
+          } else {
+            document.getElementById('verifyIcon').textContent = '❌';
+            document.getElementById('verifyTitle').textContent = 'Error';
+            document.getElementById('verifyMsg').textContent = data.error || 'No se pudo verificar.';
+            document.getElementById('verifyActions').innerHTML = '<a href="/login.html" class="btn btn-outline" style="width:100%;justify-content:center;">Ir al login</a>';
+          }
+        })
+        .catch(() => {
+          document.getElementById('verifyIcon').textContent = '❌';
+          document.getElementById('verifyTitle').textContent = 'Error';
+          document.getElementById('verifyMsg').textContent = 'No se pudo conectar al servidor.';
+        });
+    }
+  </script>
+</body>
+</html>   

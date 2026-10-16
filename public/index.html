@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="/img/og-image.png">   
+  <title>SUPP WARE TORREÓN - Suplementos de Calidad</title>
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">  
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">SUPP WARE</a>
+      <nav class="nav">
+        <a href="/" class="active">Inicio</a>
+        <a href="/products.html">Productos</a>
+        <a href="/about.html">Nosotros</a>
+        <a href="/points.html">Puntos</a>
+        <a href="/contact.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="location.href='/products.html'">🔍</button>
+        <button class="icon-btn" onclick="location.href='/cart.html'">🛒<span class="cart-badge" id="cartCount">0</span></button>
+        <div class="user-menu">
+          <button class="icon-btn" onclick="toggleUserMenu()">👤</button>
+          <div class="user-dropdown" id="userDropdown"></div>
+        </div>  
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">⚡ Entregas en Torreón</div>
+        <h1>Suplementos de <span>máxima calidad</span> al mejor precio</h1>
+        <p>Solo vendemos lo que nosotros mismos consumiríamos. Calidad verificada, precios justos, y si conseguimos mejor precio con proveedores, tú lo pagas menos.</p>
+        <div class="hero-btns">
+          <a href="/products.html" class="btn btn-primary">Ver Catálogo →</a>
+          <a href="/about.html" class="btn btn-outline">Conoce Nuestra Historia</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Categorías</h2>
+        <p>Encuentra exactamente lo que necesitas</p>
+      </div>
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Productos Destacados</h2>
+        <p>Lo más vendido y mejor calificado</p>
+      </div>
+      <div class="products-grid" id="featuredGrid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>¿Por qué SUPP WARE?</h2>
+        <p>Lo que nos hace diferentes</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-card-icon">🏆</div>
+          <h3>Calidad Verificada</h3>
+          <p>Solo productos que nosotros mismos usamos. Sin rellenos, sin marcas dudosas.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">💰</div>
+          <h3>Precio Justo</h3>
+          <p>Si conseguimos mejor precio con el proveedor, tú lo pagas menos. Sin intermediarios.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">🚀</div>
+          <h3>Entrega Rápida</h3>
+          <p>Entregas en Torreón en 24-48h.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">⭐</div>
+          <h3>Puntos de Lealtad</h3>
+          <p>Gana puntos con cada compra y canjéalos por descuentos en tu próxima orden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">SUPP WARE</a>
+          <p>Suplementos de máxima calidad en Torreón. Solo vendemos lo que consumiríamos.</p>
+        </div>
+        <div>
+          <h4>Tienda</h4>
+          <a href="/products.html">Todos los Productos</a>
+          <a href="/products.html?category=proteinas">Proteínas</a>
+          <a href="/products.html?category=creatina">Creatina</a>
+          <a href="/products.html?category=pre-entreno">Pre-Entreno</a>
+        </div>
+        <div>
+          <h4>Cuenta</h4>
+          <a href="/login.html">Iniciar Sesión</a>
+          <a href="/register.html">Registrarse</a>
+          <a href="/orders.html">Mis Pedidos</a>
+          <a href="/points.html">Mis Puntos</a>
+        </div>
+        <div>
+          <h4>Info</h4>
+          <a href="/about.html">Nosotros</a>
+          <a href="/contact.html">Contacto</a>
+          <a href="#">Preguntas Frecuentes</a>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 SUPP WARE Torreón. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="/js/app.js"></script>
+  <script>
+    // Load categories & featured
+    async function loadHome() {
+      try {
+        const [cats, featured] = await Promise.all([
+          fetch('/api/products/categories').then(r => r.json()),
+          fetch('/api/products/featured').then(r => r.json())
+        ]);
+        const icons = {'Proteínas':'🥛','Creatina':'⚡','Pre-Entreno':'🔥','Aminoácidos':'🧬','Multivitamínicos':'💊','Grasas Saludables':'🥑','Bebidas':'🥤','Accesorios':'🏋️'};
+        document.getElementById('categoriesGrid').innerHTML = cats.map(c => `
+          <a href="/products.html?category=${c.slug}" class="category-card">
+            <div class="category-card-icon">${icons[c.name]||'📦'}</div>
+            <h3>${c.name}</h3>
+            <p>${c.children?.length || 0} subcategorías</p>
+          </a>
+        `).join('');
+        document.getElementById('featuredGrid').innerHTML = featured.map(p => productCard(p)).join('');
+      } catch(e) { console.error(e); }
+    }
+    loadHome();
+  </script>
+</body>
+</html>   
